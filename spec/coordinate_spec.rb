@@ -1,0 +1,3 @@
+require 'coordinate'
+
+#Rspec.describe 
