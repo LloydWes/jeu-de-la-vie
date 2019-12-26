@@ -1,7 +1,8 @@
 require 'life_game_grid'
+require 'graphic'
 
 class GameManager
-  attr_reader :grid, :tickrate, :ticks
+  attr_reader :grid, :tickrate, :ticks, :graphic
   attr_accessor :ruler_is_set, :state, :ruler
 
   def initialize(width, height, tickrate)
@@ -28,6 +29,10 @@ class GameManager
     else
       false
     end
+  end
+
+  def play_turn()
+    @ruler.play_turn(@grid)
   end
 
   #####################################

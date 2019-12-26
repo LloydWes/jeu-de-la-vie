@@ -62,4 +62,21 @@ RSpec.describe LifeGameGrid do
       expect(@grid.mark_for_birth(1,1)).to be false
     end
   end
+
+  describe '#play_turn' do
+    it 'should ____' do
+      @grid.add_cell(0,0, {})
+      @grid.add_cell(1,0, {})
+      @grid.add_cell(2,0, {})
+      @grid.add_cell(0,1, {})
+      @grid.add_cell(2,1, {})
+      @grid.add_cell(0,2, {})
+      @grid.add_cell(1,2, {})
+      @grid.add_cell(2,2, {})
+
+      @grid.each do |cell|
+        puts cell
+      end
+    end
+  end
 end

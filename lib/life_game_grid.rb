@@ -9,6 +9,8 @@ class LifeGameGrid < GridAbstraction
   end
 
   def get_adjacent_coordinates(x,y)
+    puts 'get_adjacent_coordinates'
+    print '-'*10, x, ':', x.class, ' ', y, ':', y.class, '|'*10, "\n"
     first_cell = [x-1, y-1]
     coordinates = Array.new
     3.times do |i| # i --> x
@@ -39,6 +41,7 @@ class LifeGameGrid < GridAbstraction
     cell = find_cell(x,y)
     if cell != nil
       cell.add_content(:will_be, 'dead')
+      cell.add_content(:changes, 1)
       true
     else
       false
@@ -47,11 +50,15 @@ class LifeGameGrid < GridAbstraction
 
   def mark_for_birth(x,y)
     if cell_doesnt_exist(x,y)
-      add_cell(x,y, {will_be: 'living'})
+      add_cell(x,y, {will_be: 'cell', changes: 1})
       true
     else
       false
     end
+  end
+
+  def apply_changes()
+
   end
 
 end

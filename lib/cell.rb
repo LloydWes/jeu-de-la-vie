@@ -26,7 +26,7 @@ class Cell
 
   def add_content(key,value)
     if @content[key.to_sym] == nil
-      @content[key.to_sym] = value.to_sym
+      @content[key.to_sym] = value
       true
     else
       false
@@ -35,9 +35,9 @@ class Cell
 
   def has_content(key)
     if @content[key.to_sym] != nil
-      true
+      @content[key.to_sym]
     else
-      false
+      nil
     end
   end
 
@@ -56,6 +56,24 @@ class Cell
       true
     else
       false
+    end
+  end
+
+  def apply_changes()
+    if @content[:changes] != nil
+      @content[:changes] = @content[:changes] - 1
+      if @content[:changes] == 0
+        @content.remove(:changes)
+      end
+
+      cont = @content[:will_be]
+      case cont
+      when 'dead'
+        @content.add_content(:type, 'dead')
+      when 'cell'
+        @content.add_content(:type, 'cell')
+      end
+      @content.remove(:will_be)
     end
   end
 end

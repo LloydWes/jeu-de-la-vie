@@ -26,6 +26,12 @@ class GridAbstraction
     end
   end
 
+  def each()
+    @cells.each do |cell|
+      yield cell
+    end
+  end
+
   def within_limits(x,y)
     x < @width_limit && y < @height_limit
   end
