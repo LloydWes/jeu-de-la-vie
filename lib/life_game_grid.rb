@@ -5,23 +5,20 @@ class LifeGameGrid < GridAbstraction
 
   def initialize(e_width, e_height)
     super(e_width, e_height)
-
   end
 
-  def get_adjacent_coordinates(x,y)
-    puts 'get_adjacent_coordinates'
-    print '-'*10, x, ':', x.class, ' ', y, ':', y.class, '|'*10, "\n"
+  def get_adjacent_coordinates(x,y) #
     first_cell = [x-1, y-1]
     coordinates = Array.new
-    3.times do |i| # i --> x
-      3.times do |j| # j --> y
+    ((y-1)..(y+1)).each do |j| # j --> y
+      ((x-1)..(x+1)).each do |i| # i --> x
         coordinates << [i, j] if i != x || j != y
       end
     end
     coordinates
   end
 
-  def get_adjacent_cells(x,y)
+  def get_adjacent_cells(x,y) #
     adjacent_coordinates = get_adjacent_coordinates(x,y)
     adjacent_cells = Array.new
     adjacent_coordinates.each do |coordinate|
@@ -33,11 +30,23 @@ class LifeGameGrid < GridAbstraction
     adjacent_cells
   end
 
-  def get_adjacent_cells_count(x,y)
+  def apply_changes()
+    @cells.each do |cell|
+      puts cell.inspect
+      cell.apply_changes()
+      if cell.get_content(:type) == 'none'
+        puts "X removed #{cell.inspect}"
+        remove_cell(cell.x, cell.y)
+      end
+    end
+  end
+
+  def get_adjacent_cells_count(x,y) #
+    # puts "[#{x},#{y}] : #{get_adjacent_cells(x,y).length}" if x == 3 && y == 3
     get_adjacent_cells(x,y).length
   end
 
-  def mark_for_deletion(x,y)
+  def mark_for_deletion(x,y) #
     cell = find_cell(x,y)
     if cell != nil
       cell.add_content(:will_be, 'dead')
@@ -48,7 +57,7 @@ class LifeGameGrid < GridAbstraction
     end
   end
 
-  def mark_for_birth(x,y)
+  def mark_for_birth(x,y) #
     if cell_doesnt_exist(x,y)
       add_cell(x,y, {will_be: 'cell', changes: 1})
       true
@@ -57,9 +66,6 @@ class LifeGameGrid < GridAbstraction
     end
   end
 
-  def apply_changes()
-
-  end
 
 end
 

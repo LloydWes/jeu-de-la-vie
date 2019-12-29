@@ -3,8 +3,9 @@ require 'coordinate'
 class Cell
   attr_reader :content, :coordinate
 
-  def initialize(x, y)
-    @content = Hash.new
+  def initialize(x, y, content)
+    @content = content
+    # @content = Hash.new
     @coordinate = Coordinate.new(x, y)
   end
 
@@ -24,6 +25,10 @@ class Cell
     @coordinate.y ||= y
   end
 
+  def inspect()
+    "[#{@coordinate.x},#{@coordinate.y}] : #{@content}"
+  end
+
   def add_content(key,value)
     if @content[key.to_sym] == nil
       @content[key.to_sym] = value
@@ -33,12 +38,13 @@ class Cell
     end
   end
 
-  def has_content(key)
-    if @content[key.to_sym] != nil
-      @content[key.to_sym]
-    else
-      nil
-    end
+  def get_content(key)
+    @content[key.to_sym]
+    # if @content[key.to_sym] != nil
+    #   @content[key.to_sym]
+    # else
+    #   nil
+    # end
   end
 
   def remove_content(key)
@@ -60,20 +66,23 @@ class Cell
   end
 
   def apply_changes()
+    print "Applied changes for #{inspect} "
     if @content[:changes] != nil
       @content[:changes] = @content[:changes] - 1
       if @content[:changes] == 0
-        @content.remove(:changes)
-      end
+        @content.delete(:changes)
 
-      cont = @content[:will_be]
-      case cont
-      when 'dead'
-        @content.add_content(:type, 'dead')
-      when 'cell'
-        @content.add_content(:type, 'cell')
+        cont = @content[:will_be]
+        case cont
+        when 'dead'
+          @content[:type] = 'none'
+        when 'cell'
+          @content[:type] = 'cell'
+        end
+        @content.delete(:will_be)
       end
-      @content.remove(:will_be)
     end
+    puts "vs #{inspect}"
+    @content
   end
 end

@@ -10,7 +10,7 @@ class GridAbstraction
     @cells = Array.new()
   end
 
-  def height_limit=(e_height)
+  def height_limit=(e_height) #
     if e_height > 0
       @height_limit = e_height
     else 
@@ -18,7 +18,7 @@ class GridAbstraction
     end
   end
 
-  def width_limit=(e_width)
+  def width_limit=(e_width) #
     if e_width > 0
       @width_limit = e_width
     else
@@ -32,64 +32,85 @@ class GridAbstraction
     end
   end
 
-  def within_limits(x,y)
+  def display_grid()
+    puts '*'*10
+    previous_x = 0
+    (min_y()..max_y()).each do |c_y|
+      (min_x()..max_x()).each do |c_x|
+        if(find_cell(c_x, c_y))
+          print 'x'
+        else
+          print ' '
+        end
+        previous_x = c_x
+      end
+      print "\n"
+    end
+    puts "\n", '*'*10
+  end
+
+  def within_limits(x,y) #
     x < @width_limit && y < @height_limit
   end
 
-  def cell_does_exist(x,y)
-    find_cell(x,y)
+  def cell_does_exist(x,y) #
+    if find_cell(x,y)
+      true
+    else
+      false
+    end
   end
 
-  def cell_doesnt_exist(x,y)
+  def cell_doesnt_exist(x,y) #
     !find_cell(x,y)
   end
 
-  def add_cell(x, y, content)
+  def add_cell(x, y, content) #
     if(within_limits(x,y) && cell_doesnt_exist(x,y))
-      @cells << Cell.new(x, y)
+      @cells << Cell.new(x, y, content)
     else
       nil
     end
   end
 
-  def find_cell(x, y)
+  def find_cell(x, y) #
     @cells.find { |cell| (cell.x == x && cell.y == y) }
   end
 
-  def remove_cell(x, y)
+  def remove_cell(x, y) #
     cell_to_remove = find_cell(x, y)
     if cell_to_remove != nil
-      @cells.delete( cell_to_remove )
+      @cells.delete(cell_to_remove)
     else
       nil
     end
   end
 
-  def get_grid_size()
+  def get_grid_size() #||
     @cells.length
   end
 
-  def get_min(axis)
+  def get_min(axis) #
     @cells.min_by {|cell| cell.send(axis.to_sym)}
   end
 
-  def get_max(axis)
+  def get_max(axis) #
     @cells.max_by {|cell| cell.send(axis.to_sym)}
   end
 
-  def min_x()
+  def min_x() #
     get_min(:x).x
   end
 
-  def max_x()
+  def max_x() #
     get_max(:x).x
   end
 
-  def min_y()
+  def min_y() #
     get_min(:y).y
   end
 
-  def max_y()
+  def max_y() #
     get_max(:y).y
   end
 

@@ -6,7 +6,7 @@ RSpec.describe Cell do
     @cell = Cell.new(1,1)
   end
 
-  describe '#x=(), #y=() w/before :each' do
+  describe '#x=(), #y=()' do
     it 'forbide a cell to change its coordinates' do
       @cell.x = 2
       @cell.y = 2
@@ -14,7 +14,7 @@ RSpec.describe Cell do
       expect(@cell.y).to eq 1
     end
   end
-  describe '#x(), y() w/before :each' do
+  describe '#x(), y()' do
     it 'returns the proper coordinates' do
       expect(@cell.x).to eq 1
       expect(@cell.y).to eq 1
@@ -52,6 +52,23 @@ RSpec.describe Cell do
 
     it 'should return false' do
       expect(@cell.clear_all_content).to be false
+    end
+  end
+
+  describe '#apply_changes()' do
+    it 'should return Hash' do
+      expect(@cell.apply_changes().class).to be Hash
+    end
+  end
+
+  describe '#get_content()' do
+    it "should return 'cell'" do
+      @cell.content[:type] = 'cell'
+      expect(@cell.get_content(:type)).to eq 'cell'
+    end
+
+    it 'should return nil' do
+      expect(@cell.get_content(:type)).to eq nil
     end
   end
 

@@ -36,7 +36,7 @@ RSpec.describe GridAbstraction do
       expect(new_cell).to eq nil
     end
 
-    it "shouldn't be able to add a cell with existing coordinates" do 
+    it "shouldn't be able to add a cell with existing coordinates" do
       @grid.add_cell(1,1, {type: 'cell'})
       new_cell = @grid.add_cell(1,1, {type: 'cell'})
 
@@ -59,6 +59,7 @@ RSpec.describe GridAbstraction do
 
       expect {@grid.remove_cell(1,1)}.to \
       change(@grid.cells, :length).from(1).to(0)
+      expect(@grid.find_cell(1,1)).to be nil
     end
 
     it 'should return the last deleted cell' do 
@@ -119,6 +120,30 @@ RSpec.describe GridAbstraction do
       @grid.add_cell(6,4, {type: 'cell'})
       expect(@grid.min_y()).to eq -1
       expect(@grid.max_y()).to eq 9
+    end
+
+  end
+
+  describe '#cell_does_exist()' do
+    it 'should be true' do
+      @grid.add_cell(6,4, {type: 'cell'})
+      expect(@grid.cell_does_exist(6,4)).to be true
+    end
+
+    it 'should be false' do
+      expect(@grid.cell_does_exist(1,1)).to be false
+    end
+  end
+
+  describe '#within_limits()' do
+    it 'should be true' do
+      expect(@grid.within_limits(1,1)).to be true
+      expect(@grid.within_limits(99,99)).to be true
+    end
+
+    it 'should be false' do
+      expect(@grid.within_limits(100,99)).to be false
+      expect(@grid.within_limits(99,100)).to be false
     end
   end
 

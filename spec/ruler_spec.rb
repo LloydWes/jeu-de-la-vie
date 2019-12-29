@@ -24,23 +24,6 @@ RSpec.describe Ruler do
     end
   end
 
-  describe '#play_turn' do
-    xit 'should ' do
-      game_manager = GameManager.new(100, 100, 1)
-
-      game_manager.grid.add_cell(0,0, {})
-      game_manager.grid.add_cell(1,0, {})
-      game_manager.grid.add_cell(2,0, {})
-      game_manager.grid.add_cell(0,1, {})
-      game_manager.grid.add_cell(2,1, {})
-      game_manager.grid.add_cell(0,2, {})
-      game_manager.grid.add_cell(1,2, {})
-      game_manager.grid.add_cell(2,2, {})
-
-      game_manager.set_ruler(@ruler)
-
-      game_manager.play_turn()
-    end
-  end
-
+  #play_turn is tested somewhere else
+e
 end

@@ -34,10 +34,32 @@ RSpec.describe LifeGameGrid do
       @grid.add_cell(2,2, {})
 
       adjacent_cells = @grid.get_adjacent_cells(1,1)
-
       expect(adjacent_cells.class).to be Array
       expect(adjacent_cells[0].class).to be Cell
       expect(adjacent_cells.length).to eq 8
+    end
+  end
+
+  describe '#get_adjacent_cells_count' do
+    it 'should be 1' do
+      @grid.add_cell(0,0, {})
+      @grid.add_cell(1,0, {})
+      expect(@grid.get_adjacent_cells_count(0,0)).to eq 1
+    end
+    it 'should be 2' do
+      @grid.add_cell(0,0, {})
+      @grid.add_cell(1,0, {})
+      @grid.add_cell(0,1, {})
+      expect(@grid.get_adjacent_cells_count(0,0)).to eq 2
+      expect(@grid.get_adjacent_cells_count(1,0)).to eq 2
+    end
+    it 'should be 3' do
+      @grid.add_cell(5,1, {})
+      @grid.add_cell(5,2, {})
+      @grid.add_cell(5,3, {})
+      @grid.add_cell(6,1, {})
+      @grid.add_cell(6,2, {})
+      expect(@grid.get_adjacent_cells_count(5,1)).to eq 3
     end
   end
 
@@ -60,23 +82,6 @@ RSpec.describe LifeGameGrid do
     it 'should be false' do 
       @grid.add_cell(1,1, {type: 'cell'})
       expect(@grid.mark_for_birth(1,1)).to be false
-    end
-  end
-
-  describe '#play_turn' do
-    it 'should ____' do
-      @grid.add_cell(0,0, {})
-      @grid.add_cell(1,0, {})
-      @grid.add_cell(2,0, {})
-      @grid.add_cell(0,1, {})
-      @grid.add_cell(2,1, {})
-      @grid.add_cell(0,2, {})
-      @grid.add_cell(1,2, {})
-      @grid.add_cell(2,2, {})
-
-      @grid.each do |cell|
-        puts cell
-      end
     end
   end
 end

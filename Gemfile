@@ -4,3 +4,4 @@ ruby '2.6.3'
 
 gem 'ruby2d'
 gem 'rspec'
+gem 'pry'
