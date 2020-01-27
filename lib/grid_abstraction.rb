@@ -4,8 +4,8 @@ class GridAbstraction
 	attr_accessor :cells, :height_limit, :width_limit
 
   def initialize(e_width, e_height)
-    @width_limit = e_width
-    @height_limit = e_height
+    self.width_limit = e_width
+    self.height_limit = e_height
 
     @cells = Array.new()
   end

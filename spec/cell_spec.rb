@@ -3,7 +3,7 @@ require "cell"
 
 RSpec.describe Cell do
   before :each do 
-    @cell = Cell.new(1,1)
+    @cell = Cell.new(1,1, {})
   end
 
   describe '#x=(), #y=()' do
@@ -14,6 +14,7 @@ RSpec.describe Cell do
       expect(@cell.y).to eq 1
     end
   end
+
   describe '#x(), y()' do
     it 'returns the proper coordinates' do
       expect(@cell.x).to eq 1
@@ -21,55 +22,74 @@ RSpec.describe Cell do
     end
   end
 
-  describe '#add_content' do
-    it 'should return true' do
-      expect(@cell.add_content('type', 'cell')).to be true
+  describe '#set_content()' do 
+    it 'should be a Symbol' do
+      expect(@cell.set_content(:type, :cell).class).to be Symbol
     end
 
-    it 'should return false' do 
-      @cell.add_content('type', 'cell')
-      expect(@cell.add_content('type', 'cell')).to be false
-    end
-  end
-
-  describe '#remove_content' do
-    it 'should return true' do
-      @cell.add_content('type', 'cell')
-      expect(@cell.remove_content('type')).to be true
+    it 'should return :cell' do
+      expect(@cell.set_content(:type, :cell)).to eq :cell
     end
 
-    it 'should return false' do
-      expect(@cell.remove_content('type')).to be false
+    it 'should be an Integer' do
+      expect(@cell.set_content(:changes, 2).class).to be Integer
+    end
+
+    it 'should return 2' do 
+      expect(@cell.set_content(:changes, 2)).to eq 2
     end
   end
 
-  describe '#clear_all_content()' do
-    it 'should return true' do
-      @cell.add_content('type', 'cell')
-      @cell.add_content('color', 'blue')
-      expect(@cell.clear_all_content).to be true
+  describe '#has_content()' do 
+    it 'should be true' do
+      @cell.set_content(:type, :cell)
+      @cell.set_content(:other, :whatever)
+      expect(@cell.has_content(:type)).to be true
     end
 
-    it 'should return false' do
-      expect(@cell.clear_all_content).to be false
-    end
-  end
-
-  describe '#apply_changes()' do
-    it 'should return Hash' do
-      expect(@cell.apply_changes().class).to be Hash
+    it 'should be false' do
+      expect(@cell.has_content(:type)).to be false
     end
   end
 
   describe '#get_content()' do
-    it "should return 'cell'" do
-      @cell.content[:type] = 'cell'
-      expect(@cell.get_content(:type)).to eq 'cell'
+    it 'should be a Symbol' do
+      @cell.set_content(:type, :cell)
+      @cell.set_content(:other, :whatever)
+      expect(@cell.get_content(:type).class).to be Symbol
+    end
+
+    it 'should return :cell' do
+      @cell.set_content(:type, :cell)
+      expect(@cell.get_content(:type)).to eq :cell
     end
 
     it 'should return nil' do
-      expect(@cell.get_content(:type)).to eq nil
+      expect(@cell.get_content(:none)).to be nil
     end
   end
 
+  describe '#remove_content()' do
+    it 'should return true' do
+      @cell.set_content(:type, :cell)
+      expect(@cell.remove_content(:type)).to be true
+    end
+
+    it 'should return false' do
+      expect(@cell.remove_content(:type)).to be false
+    end
+  end
+
+  describe '#clear_content()' do
+    it 'should return true' do
+      @cell.set_content(:type, :cell)
+      @cell.set_content(:color, :blue)
+      expect(@cell.clear_content).to be true
+    end
+
+    it 'should return false' do
+      expect(@cell.clear_content).to be false
+    end
+  end
+  
 end

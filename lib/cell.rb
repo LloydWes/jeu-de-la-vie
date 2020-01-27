@@ -29,25 +29,27 @@ class Cell
     "[#{@coordinate.x},#{@coordinate.y}] : #{@content}"
   end
 
-  def add_content(key,value)
-    if @content[key.to_sym] == nil
+  def set_content(key, value) #
+    if value.respond_to?(:to_sym)
+      @content[key.to_sym] = value.to_sym
+    else
       @content[key.to_sym] = value
+    end
+  end
+
+  def has_content(key) #
+    if get_content(key) != nil
       true
     else
       false
     end
   end
 
-  def get_content(key)
+  def get_content(key) #
     @content[key.to_sym]
-    # if @content[key.to_sym] != nil
-    #   @content[key.to_sym]
-    # else
-    #   nil
-    # end
   end
 
-  def remove_content(key)
+  def remove_content(key) #
     if @content[key.to_sym] != nil
       @content.delete(key.to_sym)
       true
@@ -56,7 +58,7 @@ class Cell
     end
   end
 
-  def clear_all_content()
+  def clear_content() #
     if @content.length != 0
       @content.clear
       true
@@ -65,24 +67,4 @@ class Cell
     end
   end
 
-  def apply_changes()
-    print "Applied changes for #{inspect} "
-    if @content[:changes] != nil
-      @content[:changes] = @content[:changes] - 1
-      if @content[:changes] == 0
-        @content.delete(:changes)
-
-        cont = @content[:will_be]
-        case cont
-        when 'dead'
-          @content[:type] = 'none'
-        when 'cell'
-          @content[:type] = 'cell'
-        end
-        @content.delete(:will_be)
-      end
-    end
-    puts "vs #{inspect}"
-    @content
-  end
 end
